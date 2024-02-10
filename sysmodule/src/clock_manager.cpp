@@ -258,6 +258,18 @@ bool ClockManager::RefreshContext()
         }
 
         hz = this->GetConfig()->GetOverrideHz((SysClkModule)module);
+
+        // sdev oc (docked)
+        if (module == 0 && profile == SysClkProfile_Docked)
+        {
+            std::uint32_t oc = this->GetConfig()->GetConfigValue(SysClkConfigValue_SDEV);
+
+            if (oc == 1)
+            {
+                hz = 1224000000;
+            }
+        }
+
         if (hz != this->context->overrideFreqs[module])
         {
             if(hz)
